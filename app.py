@@ -2,7 +2,9 @@ import streamlit as st
 from models.AI_jobs import df 
 import plotly.graph_objects as go
 import plotly.express as px
-st.set_page_config(layout='wide')
+st.set_page_config(layout='wide',
+                   page_title='Job Market Dashboard',
+                   page_icon='📈')
 st.markdown(
     """
     <div style="
@@ -27,99 +29,43 @@ avg_salary=df['salary_usd'].mean()
 top_role=df.groupby('job_role')['job_openings'].sum().sort_values().index[-1]
 df_2026=df[df['year']==2026]
 top_country=df_2026.groupby('country')['job_openings'].sum().sort_values().index[-1]
+st.markdown("""
+<style>
+/* Target the metric container */
+div[data-testid="stMetric"] {
+    background-color: #1e1e1e;
+    border: 2px solid #4DA6FF;
+    border-radius: 12px;
+    padding: 16px 20px;
+    box-shadow: 4px 4px 12px rgba(74, 108, 247, 0.2);
+    
+    
+}
+
+div[data-testid="stMetric"] p {
+    color: #fff !important;
+    font-size: 17px !important;
+    
+}
+div[data-testid="stMetricValue"] > div {
+    
+    color: #4DA6FF;
+    font-size: 25px ;
+    font-weight: bold !important;
+}
+</style> """,unsafe_allow_html=True)
 with card1:
-    st.markdown(
-        f"""
-        <div style="
-            background-color:#1e1e1e;
-            height:90px;
-            padding:5px;
-            border-radius:10px;
-            display:flex;
-            flex-direction:column;
-            justify-content:center;
-            align-items:center;
-        ">
-        <div style="color:white;font-size:20px;margin:0;">
-            Total Job Openings (2026)
-    </div>
-    <div style="color:#4DA6FF;font-size:20px;font-weight:bold;margin-top:4px;">
-        {total_jobs:,}
-    </div>
-</div>
-            """,
-            unsafe_allow_html=True
-        )
+    st.metric('Total Job Openings (2026)',f'{total_jobs:,}')
 
 with card2:
-    st.markdown(
-        f"""
-        <div style="
-            background-color:#1e1e1e;
-            height:90px;
-            padding:5px;
-            border-radius:10px;
-            display:flex;
-            flex-direction:column;
-            justify-content:center;
-            align-items:center;
-        ">
-        <div style="color:white;font-size:20px;margin:0;">
-            AVG.Salary (USD)
-    </div>
-    <div style="color:#4DA6FF;font-size:20px;font-weight:bold;margin-top:4px;">
-        ${int(avg_salary):,}
-    </div>
-</div>
-            """,
-            unsafe_allow_html=True
-        )
+    st.metric('AVG.Salary (USD)',f'$ {int(avg_salary):,}')
+    
 with card3:
-    st.markdown(
-        f"""
-        <div style="
-            background-color:#1e1e1e;
-            height:90px;
-            padding:5px;
-            border-radius:10px;
-            display:flex;
-            flex-direction:column;
-            justify-content:center;
-            align-items:center;
-        ">
-        <div style="color:white;font-size:20px;margin:0;">
-            Top Role (Hiring)
-    </div>
-    <div style="color:#4DA6FF;font-size:20px;font-weight:bold;margin-top:4px;">
-        {top_role}
-    </div>
-</div>
-            """,
-            unsafe_allow_html=True
-        )
+    st.metric('Top Role (Hiring)',top_role)
+
 with card4:
-    st.markdown(
-        f"""
-        <div style="
-            background-color:#1e1e1e;
-            height:90px;
-            padding:5px;
-            border-radius:10px;
-            display:flex;
-            flex-direction:column;
-            justify-content:center;
-            align-items:center;
-        ">
-        <div style="color:white;font-size:20px;margin:0;">
-            Top AI Hiring Countries (2026)
-    </div>
-    <div style="color:#4DA6FF;font-size:20px;font-weight:bold;margin-top:4px;">
-        {top_country}
-    </div>
-</div>
-            """,
-            unsafe_allow_html=True
-        )
+    st.metric('Top AI Hiring Country (2026)',top_country)
+    
 colors = ["#4C78A8", "#F58518", "#54A24B", "#E45756", "#B279A2"]
 
 fig = go.Figure()
