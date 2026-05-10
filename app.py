@@ -49,8 +49,8 @@ div[data-testid="stMetric"] p {
 }
 div[data-testid="stMetricValue"] > div {
     
-    color: #4DA6FF;
-    font-size: 25px ;
+    color: #4DA6FF !important;
+    font-size: 25px !important;
     font-weight: bold !important;
 }
 </style> """,unsafe_allow_html=True)
